@@ -1,0 +1,61 @@
+<h1>Edit Product</h1>
+
+<%= form_with(model: @product) do |form| %>
+  <% if @product.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+      <ul>
+        <% @product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+    Current value: <%= @product.name %>
+  </div>
+
+  <div>
+    <%= form.label :price, style: "display: block" %>
+    <%= form.number_field :price, step: :any %>
+    Current value: <%= number_to_currency(@product.price) %>
+  </div>
+
+  <div>
+    <%= form.label :inventory, style: "display: block" %>
+    <%= form.number_field :inventory %>
+    Current value: <%= @product.inventory %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= @product.description %>
+    <%= form.rich_text_area :description %>
+  </div>
+
+  <br><br>
+
+  <div>
+    <%= form.label :featured_image, style: "display: block" %>
+    <% if @product.featured_image.attached? %>
+        <%= image_tag @product.featured_image, style: "max-width: 300px; margin: 10px 0;" %>
+    <% else %>
+      <p>No image currently attached</p>        
+    <% end %>
+    <%= form.file_field :featured_image, accept: "image/*" %>
+  </div>
+  <br><br>
+
+  <div>
+    <%= form.submit "Update Product" %>
+  </div>
+<% end %>
+
+
+<br><br>
+<div>
+  <%= link_to "Back to product", @product %> |
+  <%= link_to "Back to products", products_path %>
+</div> 
