@@ -6,8 +6,11 @@ class ProductsController < ApplicationController
   def show
     @product = Product.find(params[:id])
   end
+  def product_params
+    params.require(:product).permit(:name, :inventory, :price, :description)
+  end
   def create
-    @product = Product.new(params.require(:product).permit(:name, :inventory, :price))
+    @product = Product.new(product_params)
     if @product.save
       redirect_to @product
     else
