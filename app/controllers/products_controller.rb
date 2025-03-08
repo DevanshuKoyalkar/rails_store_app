@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
   end
   def create
-    @product = Product.new(product_params)
+    @product = Product.new(params.require(:product).permit(:name))
     if @product.save
       redirect_to @product
     else
