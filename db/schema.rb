@@ -15,5 +15,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_04_062402) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "inventory", default: 0, null: false
+    t.decimal "price", precision: 10, scale: 2, default: "0.0", null: false
   end
 end
