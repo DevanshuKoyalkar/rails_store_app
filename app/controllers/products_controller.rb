@@ -10,8 +10,7 @@ class ProductsController < ApplicationController
   end
   # params for the product
   def product_params
-    params.require(:product).permit(:name, :inventory, :price, :description)
-    params.expect(product: [ :name, :description, :featured_image ])
+    params.require(:product).permit(:name, :inventory, :price, :description, :featured_image)
   end
   # create a new product
   def create

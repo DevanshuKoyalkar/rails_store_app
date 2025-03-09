@@ -1,61 +1,168 @@
-<h1>Edit Product</h1>
+<div class="form-container">
+  <h1>Edit Product</h1>
 
-<%= form_with(model: @product) do |form| %>
-  <% if @product.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
-      <ul>
-        <% @product.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+  <%= form_with(model: @product, class: "product-form") do |form| %>
+    <% if @product.errors.any? %>
+      <div class="error-messages">
+        <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+        <ul>
+          <% @product.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :price %>
+      <%= form.number_field :price, step: :any, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :inventory %>
+      <%= form.number_field :inventory, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :description %>
+      <%= form.rich_text_area :description, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <div class="current-image">
+        <% if @product.featured_image.attached? %>
+          <%= image_tag @product.featured_image, class: "preview-image" %>
+          <p class="image-label">Current Image</p>
         <% end %>
-      </ul>
+      </div>
+      <%= form.label :featured_image, "Update Image" %>
+      <%= form.file_field :featured_image, class: "form-control", accept: "image/*" %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Update Product", class: "btn btn-primary" %>
+      <%= link_to "Back to Product", product_path(@product), class: "btn btn-secondary" %>
     </div>
   <% end %>
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-    Current value: <%= @product.name %>
-  </div>
+</div>
 
-  <div>
-    <%= form.label :price, style: "display: block" %>
-    <%= form.number_field :price, step: :any %>
-    Current value: <%= number_to_currency(@product.price) %>
-  </div>
+<style>
+.form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-  <div>
-    <%= form.label :inventory, style: "display: block" %>
-    <%= form.number_field :inventory %>
-    Current value: <%= @product.inventory %>
-  </div>
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= @product.description %>
-    <%= form.rich_text_area :description %>
-  </div>
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-  <br><br>
+.form-control {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
 
-  <div>
-    <%= form.label :featured_image, style: "display: block" %>
-    <% if @product.featured_image.attached? %>
-        <%= image_tag @product.featured_image, style: "max-width: 300px; margin: 10px 0;" %>
-    <% else %>
-      <p>No image currently attached</p>        
-    <% end %>
-    <%= form.file_field :featured_image, accept: "image/*" %>
-  </div>
-  <br><br>
+.form-control:focus {
+  outline: none;
+  border-color: var(--amazon-orange);
+  box-shadow: 0 0 0 2px var(--amazon-light);
+}
 
-  <div>
-    <%= form.submit "Update Product" %>
-  </div>
-<% end %>
+.error-messages {
+  color: #d11a2a;
+  background: #fff2f2;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
 
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
 
-<br><br>
-<div>
-  <%= link_to "Back to product", @product %> |
-  <%= link_to "Back to products", products_path %>
-</div> 
+label {
+  font-weight: 500;
+  color: var(--amazon-dark);
+  font-size: 1rem;
+}
+
+.current-image {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #f8f8f8;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.preview-image {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.image-label {
+  color: var(--amazon-grey);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Rich text editor styling */
+trix-editor {
+  min-height: 200px;
+  background: white;
+}
+
+trix-toolbar {
+  background: #f8f8f8;
+  padding: 0.5rem;
+  border-radius: 4px 4px 0 0;
+  border: 1px solid #ddd;
+  border-bottom: none;
+}
+
+trix-editor {
+  border-radius: 0 0 4px 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+</style> 
