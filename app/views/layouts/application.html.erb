@@ -20,13 +20,103 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <style>
+      :root {
+        --amazon-orange: #FF9900;
+        --amazon-dark: #232F3E;
+        --amazon-light: #FEBD69;
+        --amazon-blue: #146EB4;
+        --amazon-grey: #37475A;
+      }
+
+      body {
+        background-color: #f8f8f8;
+        color: var(--amazon-dark);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      .btn-primary {
+        background: var(--amazon-orange);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--amazon-light);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .btn-secondary {
+        background: var(--amazon-grey);
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background: #455468;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .btn-danger {
+        background: #d11a2a;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #e12837;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        color: var(--amazon-dark);
+        margin-bottom: 1.5rem;
+      }
+
+      .nav-bar {
+        background: var(--amazon-dark);
+        padding: 1rem;
+        color: white;
+      }
+
+      .nav-bar a {
+        color: white;
+        text-decoration: none;
+        margin-right: 1rem;
+      }
+
+      .nav-bar a:hover {
+        color: var(--amazon-orange);
+      }
+    </style>
   </head>
 
   <body>
-    <nav>
+    <div class="nav-bar">
       <%= link_to "Home", root_path %>
       <%= button_to "Log out", session_path, method: :delete if authenticated? %>
-    </nav>
+    </div>
 
     <main>
       <%= yield %>

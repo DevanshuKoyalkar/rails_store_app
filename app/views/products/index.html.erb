@@ -1,18 +1,92 @@
 <h1>Products</h1>
 
-<div>
-  <%= link_to "New product", new_product_path if authenticated? %>
-</div>
+<%= link_to "Add New Product", new_product_path, class: "btn btn-primary" if authenticated? %>
 
-<br><br><br><br><br>
-
-<div id="products">
+<div class="products-grid">
   <% @products.each do |product| %>
-    <div>
-      <%= link_to product.name, product %>
+    <div class="product-card">
+      <% if product.featured_image.attached? %>
+        <%= link_to product_path(product) do %>
+          <%= image_tag product.featured_image, class: "product-image" %>
+        <% end %>
+      <% else %>
+        <%= link_to product_path(product) do %>
+          <div class="placeholder-image">No image available</div>
+        <% end %>
+      <% end %>
+      
+      <div class="product-info">
+        <h2><%= link_to product.name, product_path(product) %></h2>
+        <p class="price"><%= number_to_currency(product.price) %></p>
+      </div>
     </div>
   <% end %>
 </div>
+
+<style>
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: white;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.placeholder-image {
+  width: 100%;
+  height: 200px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.product-info {
+  padding: 1rem;
+}
+
+.product-info h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-info h2 a {
+  color: var(--amazon-dark);
+  text-decoration: none;
+}
+
+.product-info h2 a:hover {
+  color: var(--amazon-orange);
+}
+
+.price {
+  font-size: 1.2rem;
+  color: #B12704;
+  font-weight: bold;
+  margin: 0;
+}
+</style>
 
 <br><br><br><br><br>
 
