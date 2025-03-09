@@ -15,6 +15,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # OAuth routes
+  get '/auth/:provider/callback', to: 'sessions#omniauth'
+  get '/auth/failure', to: redirect('/')
 end
 
 Rails.application.routes.draw do

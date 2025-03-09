@@ -18,4 +18,15 @@ class SessionsController < ApplicationController
     terminate_session
     redirect_to new_session_path
   end
+
+  def omniauth
+    auth = request.env['omniauth.auth']
+    user = User.find_or_create_by(email: auth.info.email) do |u|
+      u.name = auth.info.name
+      u.password = SecureRandom.hex(20)
+    end
+    
+    session[:user_id] = user.id
+    redirect_to root_path, notice: 'Signed in successfully!'
+  end
 end
