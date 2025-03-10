@@ -1,54 +1,6 @@
 <div class="form-container">
   <h1>Edit Product</h1>
-
-  <%= form_with(model: @product, class: "product-form") do |form| %>
-    <% if @product.errors.any? %>
-      <div class="error-messages">
-        <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
-        <ul>
-          <% @product.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="form-group">
-      <%= form.label :name %>
-      <%= form.text_field :name, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :price %>
-      <%= form.number_field :price, step: :any, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :inventory %>
-      <%= form.number_field :inventory, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :description %>
-      <%= form.rich_text_area :description, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <div class="current-image">
-        <% if @product.featured_image.attached? %>
-          <%= image_tag @product.featured_image, class: "preview-image" %>
-          <p class="image-label">Current Image</p>
-        <% end %>
-      </div>
-      <%= form.label :featured_image, "Update Image" %>
-      <%= form.file_field :featured_image, class: "form-control", accept: "image/*" %>
-    </div>
-
-    <div class="form-actions">
-      <%= form.submit "Update Product", class: "btn btn-primary" %>
-      <%= link_to "Back to Product", product_path(@product), class: "btn btn-secondary" %>
-    </div>
-  <% end %>
+  <%= render 'form', product: @product %>
 </div>
 
 <style>

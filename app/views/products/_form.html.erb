@@ -1,0 +1,55 @@
+<%= form_with(model: product, class: "product-form") do |form| %>
+  <% if product.errors.any? %>
+    <div class="error-messages">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+      <ul>
+        <% product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :brand_id %>
+    <%= form.collection_select :brand_id, Brand.order(:name), :id, :name, 
+        { prompt: "Select a brand" }, 
+        { class: "form-control" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :price %>
+    <%= form.number_field :price, step: :any, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :inventory %>
+    <%= form.number_field :inventory, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.rich_text_area :description, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <% if product.featured_image.attached? %>
+      <div class="current-image">
+        <%= image_tag product.featured_image, class: "preview-image" %>
+        <p class="image-label">Current Image</p>
+      </div>
+    <% end %>
+    <%= form.label :featured_image %>
+    <%= form.file_field :featured_image, class: "form-control", accept: "image/*" %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Back", products_path, class: "btn btn-secondary" %>
+  </div>
+<% end %> 
